@@ -1,8 +1,10 @@
+import NumberBox from "./components/NumberBox";
 
 export default function Home() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-
+    <main className="flex min-h-screen items-center justify-between bg-red-400">
+      <NumberBox color={"bg-gray-500"} />
+      <NumberBox color={"bg-green-500"} />
     </main>
   )
 }
