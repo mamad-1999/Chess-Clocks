@@ -15,8 +15,9 @@ export const toolBar = createSlice({
     soundControl: (state) => {
       state.soundStatus = !state.soundStatus;
     },
+    reset: () => initialState,
   },
 });
 
-export const { soundControl } = toolBar.actions;
+export const { soundControl, reset } = toolBar.actions;
 export default toolBar.reducer;
