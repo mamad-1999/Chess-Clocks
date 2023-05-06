@@ -1,7 +1,10 @@
 import { configureStore } from "@reduxjs/toolkit";
+import toolBarSlice from "./features/toolBarSlice";
 
 export const store = configureStore({
-  reducer: {},
+  reducer: {
+    toolBar: toolBarSlice,
+  },
   devTools: process.env.NODE_ENV !== "production",
 });
 
