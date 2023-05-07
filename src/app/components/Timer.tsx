@@ -21,12 +21,14 @@ const Timer = () => {
                     if (state.timer1 <= 0) {
                         alert("Player 2 wins!");
                         clearInterval(state.timerId);
+                        dispatch(changeIsPlaying())
                     }
                 } else {
                     dispatch(timeTwoControl())
                     if (state.timer2 <= 0) {
                         alert("Player 1 wins!");
                         clearInterval(state.timerId);
+                        dispatch(changeIsPlaying())
                     }
                 }
             }, 1000)))
@@ -43,9 +45,19 @@ const Timer = () => {
 
     return (
         <>
-            <NumberBox time={state.timer1} onSwitch={changeCurrentUser} color={"bg-stone-500"} />
+            <NumberBox
+                timeNumber={1}
+                current={state.currentUser}
+                time={state.timer1}
+                onSwitch={changeCurrentUser}
+                color={state.currentUser === 1 ? "bg-lime-700" : "bg-stone-500"} />
             <ToolBar />
-            <NumberBox time={state.timer2} onSwitch={changeCurrentUser} color={"bg-lime-700"} />
+            <NumberBox
+                timeNumber={2}
+                current={state.currentUser}
+                time={state.timer2}
+                onSwitch={changeCurrentUser}
+                color={state.currentUser === 2 ? "bg-lime-700" : "bg-stone-500"} />
         </>
     )
 }
