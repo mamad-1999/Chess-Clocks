@@ -1,9 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit";
 import toolBarSlice from "./features/toolBarSlice";
+import timerSlice from "./features/timerSlice";
 
 export const store = configureStore({
   reducer: {
     toolBar: toolBarSlice,
+    timer: timerSlice,
   },
   devTools: process.env.NODE_ENV !== "production",
 });
