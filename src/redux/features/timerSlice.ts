@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 type TimerType = {
+  isPlaying: boolean;
   timer1: number;
   timer2: number;
   currentUser: number;
@@ -8,8 +9,9 @@ type TimerType = {
 };
 
 const initialState = {
-  timer1: 80,
-  timer2: 80,
+  isPlaying: false,
+  timer1: 20,
+  timer2: 20,
   currentUser: 1,
   timerId: null,
 } as TimerType;
@@ -30,6 +32,9 @@ export const timer = createSlice({
     currentUserSwitch: (state) => {
       state.currentUser = state.currentUser === 1 ? 2 : 1;
     },
+    changeIsPlaying: (state) => {
+      state.isPlaying = !state.isPlaying;
+    },
   },
 });
 
@@ -38,5 +43,6 @@ export const {
   timeTwoControl,
   timerIdControl,
   currentUserSwitch,
+  changeIsPlaying,
 } = timer.actions;
 export default timer.reducer;
