@@ -1,72 +1,68 @@
 "use client"
 
-import { useEffect } from 'react'
 import NumberBox from './NumberBox'
 import ToolBar from './ToolBar'
 import { useAppDispatch, useAppSelector } from '@/redux/hook'
-import { changeIsPlaying, currentUserSwitch, timeOneControl, timeTwoControl, timerIdControl } from '@/redux/features/playerOneSlice'
+import { startTime1, decrementPlayer1, decrementPlayer2, startTime2, stopTime1, stopTime2, setTimeId1, setTimeId2 } from '@/redux/features/timerSlice'
 
 const Timer = () => {
-    const state = useAppSelector((state) => state.timer)
+    const player1 = useAppSelector(state => state.timer.player1)
+    const player2 = useAppSelector(state => state.timer.player2)
     const dispatch = useAppDispatch()
 
-    useEffect(() => {
-        if (state.timerId) clearInterval(state.timerId)
-
-        if (state.isPlaying) dispatch(timerIdControl(setInterval(handelTimer, 1000)))
-
-        return () => clearInterval(state.timerId)
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [state.currentUser, state.isPlaying, state.timer1, state.timer2]);
-
-    const handelTimer = () => {
-        if (state.currentUser === 1) {
-            if (checkTime(1)) {
-                console.log("Player 2 wins!");
-                dispatch(changeIsPlaying())
-                clearInterval(state.timerId);
-                return
+    const handelPlayer1 = () => {
+        if (!player1.isPlaying && !player2.isPlaying) {
+            handelTime1()
+        } else if (player2.isPlaying) {
+            dispatch(stopTime2())
+            if (localStorage.getItem("interval") !== null) {
+                clearInterval(Number(localStorage.getItem("interval")))
             }
-            dispatch(timeOneControl())
-        } else {
-            if (checkTime(2)) {
-                console.log("Player 1 wins!");
-                dispatch(changeIsPlaying())
-                clearInterval(state.timerId);
-                return
-            }
-            dispatch(timeTwoControl())
+            handelTime1()
         }
     }
 
-    const checkTime = (n: number) => {
-        const timerValue = n === 1 ? state.timer1 : state.timer2
-        if (timerValue <= 0) {
-            return true
+    const handelPlayer2 = () => {
+        if (!player1.isPlaying && !player2.isPlaying) {
+            handelTime2()
+        } else if (player1.isPlaying) {
+            dispatch(stopTime1())
+            if (localStorage.getItem("interval") !== null) {
+                clearInterval(Number(localStorage.getItem("interval")))
+            }
+            handelTime2()
         }
-        return false
     }
 
-    const changeCurrentUser = () => {
-        (!state.isPlaying) ? dispatch(changeIsPlaying()) : null
-        dispatch(currentUserSwitch())
+    const handelTime1 = () => {
+        dispatch(startTime1())
+        const time = setInterval(() => {
+            dispatch(decrementPlayer1(10))
+        }, 10)
+        localStorage.setItem("interval", JSON.stringify(time))
+    }
+
+    const handelTime2 = () => {
+        dispatch(startTime2())
+        const time = setInterval(() => {
+            dispatch(decrementPlayer2(10))
+        }, 10)
+        localStorage.setItem("interval", JSON.stringify(time))
     }
 
     return (
         <>
             <NumberBox
-                timeNumber={1}
-                current={state.currentUser}
-                time={state.timer1}
-                onSwitch={changeCurrentUser}
-                color={state.currentUser === 1 ? "bg-lime-700" : "bg-stone-500"} />
+                time={player1.time}
+                click={handelPlayer1}
+                playing={player1.isPlaying}
+                color={player1.isPlaying ? "bg-lime-700" : "bg-stone-500"} />
             <ToolBar />
             <NumberBox
-                timeNumber={2}
-                current={state.currentUser}
-                time={state.timer2}
-                onSwitch={changeCurrentUser}
-                color={state.currentUser === 2 ? "bg-lime-700" : "bg-stone-500"} />
+                time={player2.time}
+                click={handelPlayer2}
+                playing={player2.isPlaying}
+                color={player2.isPlaying ? "bg-lime-700" : "bg-stone-500"} />
         </>
     )
 }

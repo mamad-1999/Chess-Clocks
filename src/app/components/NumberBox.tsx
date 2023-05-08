@@ -1,28 +1,27 @@
+import { formatTime } from "../util/formatTime"
 
 type PropColor = {
     color: string,
-    onSwitch: () => void,
+    click: () => void,
     time: number,
-    current: number,
-    timeNumber: number
+    playing: boolean
 }
 
 const NumberBox = (
     { color,
-        onSwitch,
+        click,
         time,
-        current,
-        timeNumber
+        playing
     }: PropColor
 ) => {
     return (
         <button
-            disabled={current === timeNumber}
-            onClick={() => onSwitch()}
+            disabled={playing}
+            onClick={() => click()}
             className={`w-full md:w-1/2 ${color} md:h-screen h-1/2 flex items-center justify-center cursor-pointer select-none`
             }>
             <h3 className="text-8xl font-semibold text-zinc-900">
-                {Math.floor(time / 60)}:{String(time % 60).padStart(2, "0")}
+                {formatTime(time)}
             </h3>
         </button >
     )
