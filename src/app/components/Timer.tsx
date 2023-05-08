@@ -11,7 +11,7 @@ import {
     stopTime1,
     stopTime2,
 } from '@/redux/features/timerSlice'
-import { setLocalStorageItem, getLocalStorageItem } from '../util/storage'
+import { setLocalStorageItem } from '../util/storage'
 import { clearTime } from '../util/clearTime'
 
 const Timer = () => {
@@ -21,8 +21,10 @@ const Timer = () => {
     const dispatch = useAppDispatch()
 
     const handelClickPlayer1 = () => {
+        // check isRunning
         if (!player1.isPlaying && !player2.isPlaying) {
             handelTime1()
+            // if timer 2 is running => stop and run timer 1
         } else if (player2.isPlaying) {
             dispatch(stopTime2())
             clearTime() // get intervalId from localStorage and clearInterval 
@@ -31,8 +33,10 @@ const Timer = () => {
     }
 
     const handelClickPlayer2 = () => {
+        // check isRunning
         if (!player1.isPlaying && !player2.isPlaying) {
             handelTime2()
+            // if timer 1 is running => stop and run timer 2
         } else if (player1.isPlaying) {
             dispatch(stopTime1())
             clearTime() // get intervalId from localStorage and clearInterval 
@@ -44,7 +48,7 @@ const Timer = () => {
         dispatch(startTime1())
         const time = setInterval(() => {
             dispatch(decrementPlayer1(10))
-        }, 10)
+        }, 10) // => 10 milliSecond
         setLocalStorageItem("interval", JSON.stringify(time))
     }
 
@@ -52,7 +56,7 @@ const Timer = () => {
         dispatch(startTime2())
         const time = setInterval(() => {
             dispatch(decrementPlayer2(10))
-        }, 10)
+        }, 10) // => 10 milliSecond
         setLocalStorageItem("interval", JSON.stringify(time))
     }
 
