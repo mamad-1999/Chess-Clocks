@@ -4,7 +4,7 @@ import { useEffect } from 'react'
 import NumberBox from './NumberBox'
 import ToolBar from './ToolBar'
 import { useAppDispatch, useAppSelector } from '@/redux/hook'
-import { changeIsPlaying, currentUserSwitch, timeOneControl, timeTwoControl, timerIdControl } from '@/redux/features/timerSlice'
+import { changeIsPlaying, currentUserSwitch, timeOneControl, timeTwoControl, timerIdControl } from '@/redux/features/playerOneSlice'
 
 const Timer = () => {
     const state = useAppSelector((state) => state.timer)

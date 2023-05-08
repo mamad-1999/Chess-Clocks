@@ -1,48 +1,50 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-type TimerType = {
-  isPlaying: boolean;
-  timer1: number;
-  timer2: number;
-  currentUser: number;
-  timerId: any;
-};
-
 const initialState = {
-  isPlaying: false,
-  timer1: 10,
-  timer2: 10,
-  currentUser: 1,
-  timerId: null,
-} as TimerType;
+  player1: {
+    isPlaying: false,
+    time: 300000,
+    timerId: null,
+  },
+  player2: {
+    isPlaying: false,
+    time: 300000,
+    timerId: null,
+  },
+};
 
 export const timer = createSlice({
   name: "timer",
   initialState: initialState,
   reducers: {
-    timeOneControl: (state) => {
-      state.timer1 = state.timer1 - 1;
+    startTime1: (state) => {
+      state.player1.isPlaying = true;
     },
-    timeTwoControl: (state) => {
-      state.timer2 = state.timer2 - 1;
+    stopTime1: (state) => {
+      state.player1.isPlaying = false;
     },
-    timerIdControl: (state, action) => {
-      state.timerId = action.payload;
+    decrementPlayer1: (state, action: PayloadAction<number>) => {
+      state.player1.isPlaying = true;
+      state.player1.time -= action.payload;
     },
-    currentUserSwitch: (state) => {
-      state.currentUser = state.currentUser === 1 ? 2 : 1;
+    startTime2: (state) => {
+      state.player2.isPlaying = true;
     },
-    changeIsPlaying: (state) => {
-      state.isPlaying = !state.isPlaying;
+    stopTime2: (state) => {
+      state.player2.isPlaying = false;
+    },
+    decrementPlayer2: (state, action: PayloadAction<number>) => {
+      state.player2.time -= action.payload;
     },
   },
 });
 
 export const {
-  timeOneControl,
-  timeTwoControl,
-  timerIdControl,
-  currentUserSwitch,
-  changeIsPlaying,
+  decrementPlayer1,
+  decrementPlayer2,
+  startTime1,
+  startTime2,
+  stopTime1,
+  stopTime2,
 } = timer.actions;
 export default timer.reducer;
