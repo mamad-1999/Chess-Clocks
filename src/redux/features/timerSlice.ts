@@ -10,8 +10,8 @@ type TimerType = {
 
 const initialState = {
   isPlaying: false,
-  timer1: 20,
-  timer2: 20,
+  timer1: 10,
+  timer2: 10,
   currentUser: 1,
   timerId: null,
 } as TimerType;

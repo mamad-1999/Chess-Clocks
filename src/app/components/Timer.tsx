@@ -11,32 +11,41 @@ const Timer = () => {
     const dispatch = useAppDispatch()
 
     useEffect(() => {
-        if (state.timerId) {
-            clearInterval(state.timerId);
-        }
-        if (state.isPlaying) {
-            dispatch(timerIdControl(setInterval(() => {
-                if (state.currentUser === 1) {
-                    dispatch(timeOneControl())
-                    if (state.timer1 <= 0) {
-                        alert("Player 2 wins!");
-                        clearInterval(state.timerId);
-                        dispatch(changeIsPlaying())
-                    }
-                } else {
-                    dispatch(timeTwoControl())
-                    if (state.timer2 <= 0) {
-                        alert("Player 1 wins!");
-                        clearInterval(state.timerId);
-                        dispatch(changeIsPlaying())
-                    }
-                }
-            }, 1000)))
-        }
+        if (state.timerId) clearInterval(state.timerId)
+
+        if (state.isPlaying) dispatch(timerIdControl(setInterval(handelTimer, 1000)))
 
         return () => clearInterval(state.timerId)
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [state.currentUser, state.isPlaying]);
+    }, [state.currentUser, state.isPlaying, state.timer1, state.timer2]);
+
+    const handelTimer = () => {
+        if (state.currentUser === 1) {
+            if (checkTime(1)) {
+                console.log("Player 2 wins!");
+                dispatch(changeIsPlaying())
+                clearInterval(state.timerId);
+                return
+            }
+            dispatch(timeOneControl())
+        } else {
+            if (checkTime(2)) {
+                console.log("Player 1 wins!");
+                dispatch(changeIsPlaying())
+                clearInterval(state.timerId);
+                return
+            }
+            dispatch(timeTwoControl())
+        }
+    }
+
+    const checkTime = (n: number) => {
+        const timerValue = n === 1 ? state.timer1 : state.timer2
+        if (timerValue <= 0) {
+            return true
+        }
+        return false
+    }
 
     const changeCurrentUser = () => {
         (!state.isPlaying) ? dispatch(changeIsPlaying()) : null

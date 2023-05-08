@@ -7,7 +7,14 @@ type PropColor = {
     timeNumber: number
 }
 
-const NumberBox = ({ color, onSwitch, time, current, timeNumber }: PropColor) => {
+const NumberBox = (
+    { color,
+        onSwitch,
+        time,
+        current,
+        timeNumber
+    }: PropColor
+) => {
     return (
         <button
             disabled={current === timeNumber}
