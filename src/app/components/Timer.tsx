@@ -22,6 +22,7 @@ const Timer = () => {
     const state = useAppSelector(state => state.timer)
     const player1 = useAppSelector(state => state.timer.player1)
     const player2 = useAppSelector(state => state.timer.player2)
+    const toolBarState = useAppSelector(state => state.toolBar)
     const dispatch = useAppDispatch()
 
     const endPlaying = () => {
@@ -40,7 +41,7 @@ const Timer = () => {
     }
 
     const handelClickPlayer1 = () => {
-        if (!state.endTime) playSound()
+        if (!state.endTime && toolBarState.soundStatus) playSound()
         // check isRunning
         if (!player1.isPlaying && !player2.isPlaying && !state.endTime) {
             handelTime1()
@@ -53,7 +54,7 @@ const Timer = () => {
     }
 
     const handelClickPlayer2 = () => {
-        if (!state.endTime) playSound()
+        if (!state.endTime && toolBarState.soundStatus) playSound()
         // check isRunning
         if (!player1.isPlaying && !player2.isPlaying && !state.endTime) {
             handelTime2()
