@@ -15,6 +15,7 @@ import {
 } from '@/redux/features/timerSlice'
 import { setLocalStorageItem } from '../util/storage'
 import { clearTime } from '../util/clearTime'
+import { playSound } from '../util/playSoundClick'
 
 const Timer = () => {
     // state and dispatch hook
@@ -39,11 +40,12 @@ const Timer = () => {
     }
 
     const handelClickPlayer1 = () => {
+        if (!state.endTime) playSound()
         // check isRunning
-        if (!player1.isPlaying && !player2.isPlaying) {
+        if (!player1.isPlaying && !player2.isPlaying && !state.endTime) {
             handelTime1()
             // if timer 2 is running => stop and run timer 1
-        } else if (player2.isPlaying) {
+        } else if (player2.isPlaying && !state.endTime) {
             dispatch(stopTime2())
             clearTime() // get intervalId from localStorage and clearInterval 
             handelTime1()
@@ -51,11 +53,12 @@ const Timer = () => {
     }
 
     const handelClickPlayer2 = () => {
+        if (!state.endTime) playSound()
         // check isRunning
-        if (!player1.isPlaying && !player2.isPlaying) {
+        if (!player1.isPlaying && !player2.isPlaying && !state.endTime) {
             handelTime2()
             // if timer 1 is running => stop and run timer 2
-        } else if (player1.isPlaying) {
+        } else if (player1.isPlaying && !state.endTime) {
             dispatch(stopTime1())
             clearTime() // get intervalId from localStorage and clearInterval 
             handelTime2()
@@ -63,8 +66,6 @@ const Timer = () => {
     }
 
     const handelTime1 = () => {
-        console.log(player1.time)
-
         dispatch(startTime1())
         const time = setInterval(() => {
             dispatch(decrementPlayer1(10))
