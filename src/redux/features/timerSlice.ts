@@ -42,6 +42,7 @@ export const timer = createSlice({
     setLostPlayer: (state, action: PayloadAction<number>) => {
       state.whoLost = action.payload;
     },
+    reset: () => initialState,
   },
 });
 
@@ -54,5 +55,6 @@ export const {
   stopTime2,
   endTimeHandler,
   setLostPlayer,
+  reset,
 } = timer.actions;
 export default timer.reducer;

@@ -41,6 +41,7 @@ const Timer = () => {
     }
 
     const handelClickPlayer1 = () => {
+        // check time is end? and check sound is on? if answer is true play sound
         if (!state.endTime && toolBarState.soundStatus) playSound()
         // check isRunning
         if (!player1.isPlaying && !player2.isPlaying && !state.endTime) {
@@ -54,6 +55,7 @@ const Timer = () => {
     }
 
     const handelClickPlayer2 = () => {
+        // check time is end? and check sound is on? if answer is true play sound
         if (!state.endTime && toolBarState.soundStatus) playSound()
         // check isRunning
         if (!player1.isPlaying && !player2.isPlaying && !state.endTime) {
