@@ -4,14 +4,14 @@ type PropColor = {
     color: string,
     click: () => void,
     time: number,
-    playing: boolean
+    playing: boolean,
 }
 
 const NumberBox = (
     { color,
         click,
         time,
-        playing
+        playing,
     }: PropColor
 ) => {
     return (

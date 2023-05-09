@@ -3,12 +3,14 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 const initialState = {
   player1: {
     isPlaying: false,
-    time: 300000,
+    time: 3000,
   },
   player2: {
     isPlaying: false,
-    time: 300000,
+    time: 3000,
   },
+  endTime: false,
+  whoLost: 0,
 };
 
 export const timer = createSlice({
@@ -34,6 +36,12 @@ export const timer = createSlice({
     decrementPlayer2: (state, action: PayloadAction<number>) => {
       state.player2.time -= action.payload;
     },
+    endTimeHandler: (state) => {
+      state.endTime = true;
+    },
+    setLostPlayer: (state, action: PayloadAction<number>) => {
+      state.whoLost = action.payload;
+    },
   },
 });
 
@@ -44,5 +52,7 @@ export const {
   startTime2,
   stopTime1,
   stopTime2,
+  endTimeHandler,
+  setLostPlayer,
 } = timer.actions;
 export default timer.reducer;
