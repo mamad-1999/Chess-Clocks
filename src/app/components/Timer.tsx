@@ -67,8 +67,8 @@ const Timer = () => {
 
         dispatch(startTime1())
         const time = setInterval(() => {
-            dispatch(decrementPlayer1(100))
-        }, 100) // => 10 milliSecond
+            dispatch(decrementPlayer1(10))
+        }, 10) // => 10 milliSecond
 
         setLocalStorageItem("interval", JSON.stringify(time))
     }
