@@ -4,10 +4,12 @@ const initialState = {
   player1: {
     isPlaying: false,
     time: 3000,
+    move: 0,
   },
   player2: {
     isPlaying: false,
     time: 3000,
+    move: 0,
   },
   startTime: false,
   endTime: false,
@@ -28,6 +30,9 @@ export const timer = createSlice({
       state.player1.isPlaying = true;
       state.player1.time -= action.payload;
     },
+    incrementMove1: (state) => {
+      state.player1.move += 1;
+    },
     startTime2: (state) => {
       state.player2.isPlaying = true;
     },
@@ -36,6 +41,9 @@ export const timer = createSlice({
     },
     decrementPlayer2: (state, action: PayloadAction<number>) => {
       state.player2.time -= action.payload;
+    },
+    incrementMove2: (state) => {
+      state.player2.move += 1;
     },
     endTimeHandler: (state) => {
       state.endTime = true;
@@ -57,6 +65,8 @@ export const {
   startTime2,
   stopTime1,
   stopTime2,
+  incrementMove1,
+  incrementMove2,
   endTimeHandler,
   startTimerHandler,
   setLostPlayer,

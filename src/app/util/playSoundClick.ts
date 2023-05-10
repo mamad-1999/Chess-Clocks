@@ -1,4 +1,6 @@
+const soundPath = "/clicksound.mp3";
+
 export const playSound = () => {
-  const sound = new Audio("/clicksound.mp3");
+  const sound = new Audio(soundPath);
   sound.play();
 };
