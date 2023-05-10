@@ -9,6 +9,7 @@ const initialState = {
     isPlaying: false,
     time: 3000,
   },
+  startTime: false,
   endTime: false,
   whoLost: 0,
 };
@@ -39,6 +40,9 @@ export const timer = createSlice({
     endTimeHandler: (state) => {
       state.endTime = true;
     },
+    startTimerHandler: (state) => {
+      state.startTime = true;
+    },
     setLostPlayer: (state, action: PayloadAction<number>) => {
       state.whoLost = action.payload;
     },
@@ -54,6 +58,7 @@ export const {
   stopTime1,
   stopTime2,
   endTimeHandler,
+  startTimerHandler,
   setLostPlayer,
   reset,
 } = timer.actions;

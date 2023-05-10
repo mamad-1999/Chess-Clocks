@@ -1,5 +1,6 @@
 "use client"
 
+import { useCallback, useEffect } from 'react'
 import NumberBox from './NumberBox'
 import ToolBar from './ToolBar'
 import { useAppDispatch, useAppSelector } from '@/redux/hook'
@@ -11,11 +12,13 @@ import {
     stopTime1,
     stopTime2,
     endTimeHandler,
-    setLostPlayer
+    setLostPlayer,
+    startTimerHandler
 } from '@/redux/features/timerSlice'
-import { setLocalStorageItem } from '../util/storage'
+import { getLocalStorageItem, setLocalStorageItem } from '../util/storage'
 import { clearTime } from '../util/clearTime'
 import { playSound } from '../util/playSoundClick'
+import { playStatusOff, playStatusOn } from '@/redux/features/toolBarSlice'
 
 const Timer = () => {
     // state and dispatch hook
@@ -25,64 +28,68 @@ const Timer = () => {
     const toolBarState = useAppSelector(state => state.toolBar)
     const dispatch = useAppDispatch()
 
-    const endPlaying = () => {
-        clearTime()
+    useEffect(() => {
+        if (player1.time <= 0 || player2.time <= 0) {
+            const player = player1.time <= 0 ? 1 : 2;
+            dispatch(setLostPlayer(player))
+            clearTime()
+            dispatch(stopTime1())
+            dispatch(stopTime2())
+            dispatch(endTimeHandler())
+        }
+    }, [dispatch, player1, player2])
+
+    const handleClickPlayer = useCallback((player: string, startTime: Function, decrementPlayer: Function) => {
+        // check time is end? and check sound is on? if answer is true play sound
+        if (!state.endTime && toolBarState.soundStatus) playSound()
+        // check isRunning
+        if (!player1.isPlaying && !player2.isPlaying && !state.endTime) {
+            handelTime(player, startTime, decrementPlayer)
+        } else if ((player1.isPlaying || player2.isPlaying) && !state.endTime) {
+            if (player1.isPlaying) {
+                dispatch(stopTime1())
+            } else {
+                dispatch(stopTime2())
+            }
+            clearTime() // get intervalId from localStorage and clearInterval 
+            handelTime(player, startTime, decrementPlayer)
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [state, toolBarState, player1, player2, dispatch])
+
+    const handelClickPlayer1 = () => handleClickPlayer('1', startTime1, decrementPlayer1);
+    const handelClickPlayer2 = () => handleClickPlayer('2', startTime2, decrementPlayer2);
+
+    const handelTime = useCallback((player: string, dispatchTime: Function, dispatchTimeFunc: Function) => {
+        dispatch(startTimerHandler())
+        dispatch(dispatchTime())
+        dispatch(playStatusOn())
+        setLocalStorageItem("lastPlay", player)
+        const time = setInterval(() => {
+            dispatch(dispatchTimeFunc(10))
+        }, 10) // => 10 milliSecond
+        setLocalStorageItem("interval", JSON.stringify(time))
+    }, [dispatch])
+
+
+    const handelPlayButton = () => {
+        dispatch(playStatusOn());
+        const lastPlay = String(getLocalStorageItem("lastPlay"));
+        console.log(lastPlay);
+
+        if (!state.startTime) {
+            handelClickPlayer1();
+            return;
+        }
+
+        lastPlay === "1" ? handelClickPlayer1() : handelClickPlayer2();
+    }
+
+    const handelPauseButton = () => {
+        dispatch(playStatusOff())
         dispatch(stopTime1())
         dispatch(stopTime2())
-        dispatch(endTimeHandler())
-    }
-
-    if (player1.time <= 0) {
-        dispatch(setLostPlayer(1))
-        endPlaying()
-    } else if (player2.time <= 0) {
-        dispatch(setLostPlayer(2))
-        endPlaying()
-    }
-
-    const handelClickPlayer1 = () => {
-        // check time is end? and check sound is on? if answer is true play sound
-        if (!state.endTime && toolBarState.soundStatus) playSound()
-        // check isRunning
-        if (!player1.isPlaying && !player2.isPlaying && !state.endTime) {
-            handelTime1()
-            // if timer 2 is running => stop and run timer 1
-        } else if (player2.isPlaying && !state.endTime) {
-            dispatch(stopTime2())
-            clearTime() // get intervalId from localStorage and clearInterval 
-            handelTime1()
-        }
-    }
-
-    const handelClickPlayer2 = () => {
-        // check time is end? and check sound is on? if answer is true play sound
-        if (!state.endTime && toolBarState.soundStatus) playSound()
-        // check isRunning
-        if (!player1.isPlaying && !player2.isPlaying && !state.endTime) {
-            handelTime2()
-            // if timer 1 is running => stop and run timer 2
-        } else if (player1.isPlaying && !state.endTime) {
-            dispatch(stopTime1())
-            clearTime() // get intervalId from localStorage and clearInterval 
-            handelTime2()
-        }
-    }
-
-    const handelTime1 = () => {
-        dispatch(startTime1())
-        const time = setInterval(() => {
-            dispatch(decrementPlayer1(10))
-        }, 10) // => 10 milliSecond
-
-        setLocalStorageItem("interval", JSON.stringify(time))
-    }
-
-    const handelTime2 = () => {
-        dispatch(startTime2())
-        const time = setInterval(() => {
-            dispatch(decrementPlayer2(10))
-        }, 10) // => 10 milliSecond
-        setLocalStorageItem("interval", JSON.stringify(time))
+        clearTime()
     }
 
     return (
@@ -92,7 +99,7 @@ const Timer = () => {
                 click={handelClickPlayer1}
                 playing={player1.isPlaying}
                 color={player1.isPlaying ? "bg-lime-700" : state.whoLost === 1 ? "bg-red-500" : "bg-stone-500"} />
-            <ToolBar />
+            <ToolBar onPlay={handelPlayButton} onPause={handelPauseButton} />
             <NumberBox
                 time={player2.time}
                 click={handelClickPlayer2}
