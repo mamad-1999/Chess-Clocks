@@ -3,12 +3,12 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 const initialState = {
   player1: {
     isPlaying: false,
-    time: 3000,
+    time: 300000,
     move: 0,
   },
   player2: {
     isPlaying: false,
-    time: 3000,
+    time: 300000,
     move: 0,
   },
   startTime: false,

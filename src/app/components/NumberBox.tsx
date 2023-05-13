@@ -1,4 +1,4 @@
-import { formatTime } from "../util/formatTime"
+import { formatTime } from "../../../util/formatTime"
 
 type PropColor = {
     color: string,

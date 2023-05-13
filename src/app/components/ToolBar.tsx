@@ -4,7 +4,7 @@ import Link from "next/link"
 import { soundControl } from "@/redux/features/toolBarSlice"
 import { useAppDispatch, useAppSelector } from "@/redux/hook"
 import { reset } from "@/redux/features/timerSlice"
-import { clearTime } from "../util/clearTime"
+import { clearTime } from "../../../util/clearTime"
 
 type ToolBarProps = {
     onPlay: () => void,

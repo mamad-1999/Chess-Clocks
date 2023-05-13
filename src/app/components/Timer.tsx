@@ -17,9 +17,9 @@ import {
     setLostPlayer,
     startTimerHandler
 } from '@/redux/features/timerSlice'
-import { getLocalStorageItem, setLocalStorageItem } from '../util/storage'
-import { clearTime } from '../util/clearTime'
-import { playSound } from '../util/playSoundClick'
+import { getLocalStorageItem, setLocalStorageItem } from '../../../util/storage'
+import { clearTime } from '../../../util/clearTime'
+import { playSound } from '../../../util/playSoundClick'
 import { playStatusOff, playStatusOn } from '@/redux/features/toolBarSlice'
 
 const Timer = () => {
