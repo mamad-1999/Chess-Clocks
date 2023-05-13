@@ -1,5 +1,6 @@
 "use client"
 
+import Link from "next/link"
 import { soundControl } from "@/redux/features/toolBarSlice"
 import { useAppDispatch, useAppSelector } from "@/redux/hook"
 import { reset } from "@/redux/features/timerSlice"
@@ -39,9 +40,11 @@ const ToolBar = ({ onPlay, onPause }: ToolBarProps) => {
                 </div>
             </div>
             <div className="flex md:flex-col items-center justify-evenly w-full h-full">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-9 h-9 stroke-stone-400">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
+                <Link href={"/time"}>
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-9 h-9 stroke-stone-400">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                </Link>
                 <div onClick={() => dispatch(soundControl())}>
                     {state.soundStatus ? (
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-9 h-9 stroke-stone-400 cursor-pointer">
