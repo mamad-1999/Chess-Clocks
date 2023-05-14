@@ -1,14 +1,10 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-
-type ToolBarSliceType = {
-  soundStatus: boolean;
-  playStatus: boolean;
-};
+import { ToolBarStateType } from "../../../types/types";
 
 const initialState = {
   soundStatus: true,
   playStatus: false,
-} as ToolBarSliceType;
+} as ToolBarStateType;
 
 export const toolBar = createSlice({
   name: "tools",

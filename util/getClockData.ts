@@ -1,5 +1,6 @@
 import fs from "fs";
 import path from "path";
+import { ClockType } from "../types/types";
 
 export const getClockData = () => {
   const clocks = fs.readFileSync(
@@ -7,5 +8,7 @@ export const getClockData = () => {
     "utf-8"
   );
 
-  return JSON.parse(clocks);
+  const allClocks: ClockType[] = JSON.parse(clocks);
+
+  return allClocks;
 };

@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { TimerStateType } from "../../../types/types";
 
 const initialState = {
   player1: {
@@ -14,11 +15,11 @@ const initialState = {
   startTime: false,
   endTime: false,
   whoLost: 0,
-};
+} as TimerStateType;
 
 export const timer = createSlice({
   name: "timer",
-  initialState: initialState,
+  initialState: initialState as TimerStateType,
   reducers: {
     startTime1: (state) => {
       state.player1.isPlaying = true;
@@ -54,7 +55,7 @@ export const timer = createSlice({
     setLostPlayer: (state, action: PayloadAction<number>) => {
       state.whoLost = action.payload;
     },
-    reset: () => initialState,
+    reset: () => initialState as TimerStateType,
   },
 });
 
