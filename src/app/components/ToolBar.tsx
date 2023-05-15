@@ -5,6 +5,7 @@ import { soundControl } from "@/redux/features/toolBarSlice"
 import { useAppDispatch, useAppSelector } from "@/redux/hook"
 import { reset } from "@/redux/features/timerSlice"
 import { clearTime } from "../../../util/clearTime"
+import { getLocalStorageItem } from "../../../util/storage"
 
 type ToolBarProps = {
     onPlay: () => void,
@@ -18,7 +19,7 @@ const ToolBar = ({ onPlay, onPause }: ToolBarProps) => {
 
     const resetTimer = () => {
         clearTime()
-        dispatch(reset())
+        dispatch(reset(getLocalStorageItem("time")))
     }
 
     return (

@@ -1,18 +1,15 @@
-type LocalStorageValue = string;
+type LocalStorageValue = string | number | boolean | object;
 
 export const setLocalStorageItem = (
   key: string,
   value: LocalStorageValue
 ): void => {
-  localStorage.setItem(key, value);
+  window.localStorage.setItem(key, JSON.stringify(value));
 };
 
 export const getLocalStorageItem = <T extends LocalStorageValue>(
   key: string
 ): T | null => {
-  const value = localStorage.getItem(key);
-  if (value) {
-    return JSON.parse(value) as T;
-  }
-  return null;
+  const value = window.localStorage.getItem(key);
+  return value ? (JSON.parse(value) as T) : null;
 };
