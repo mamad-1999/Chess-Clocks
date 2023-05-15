@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { ToolBarStateType } from "../../../types/types";
+import { ToolBarStateType } from "../state.type";
 
 const initialState = {
   soundStatus: true,

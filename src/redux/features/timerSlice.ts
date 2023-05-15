@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { TimerStateType } from "../../../types/types";
+import { TimerStateType } from "../state.type";
 
 const preLoadTime = Number(localStorage.getItem("time"));
 
