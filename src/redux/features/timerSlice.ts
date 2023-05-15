@@ -1,7 +1,8 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { TimerStateType } from "../state.type";
+import { getLocalStorageItem } from "../../../util/storage";
 
-const preLoadTime = Number(localStorage.getItem("time"));
+const preLoadTime = getLocalStorageItem("time");
 
 const initialState = {
   player1: {
@@ -61,7 +62,17 @@ export const timer = createSlice({
       state.player1.time = action.payload;
       state.player2.time = action.payload;
     },
-    reset: () => initialState,
+    reset: (state) => {
+      state.player1.isPlaying = false;
+      state.player2.isPlaying = false;
+      state.endTime = false;
+      state.startTime = false;
+      state.whoLost = 0;
+      state.player1.move = 0;
+      state.player2.move = 0;
+      state.player1.time = Number(getLocalStorageItem("time")) || 300000;
+      state.player2.time = Number(getLocalStorageItem("time")) || 300000;
+    },
   },
 });
 
