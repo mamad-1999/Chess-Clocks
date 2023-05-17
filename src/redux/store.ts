@@ -1,11 +1,13 @@
 import { configureStore } from "@reduxjs/toolkit";
 import toolBarSlice from "./features/toolBarSlice";
 import timerSlice from "./features/timerSlice";
+import settingSlice from "./features/settingSlice";
 
 export const store = configureStore({
   reducer: {
     toolBar: toolBarSlice,
     timer: timerSlice,
+    setting: settingSlice,
   },
   devTools: process.env.NODE_ENV !== "production",
 });
