@@ -28,6 +28,7 @@ const Timer = () => {
     const player1 = useAppSelector(state => state.timer.player1)
     const player2 = useAppSelector(state => state.timer.player2)
     const toolBarState = useAppSelector(state => state.toolBar)
+    const settingState = useAppSelector(state => state.setting)
     const dispatch = useAppDispatch()
 
     useEffect(() => {
@@ -103,14 +104,14 @@ const Timer = () => {
                 playing={player1.isPlaying}
                 moveCount={player1.move}
                 mobileStyle={"rotate-180 md:rotate-0"}
-                color={player1.isPlaying ? "bg-lime-700" : state.whoLost === 1 ? "bg-red-500" : "bg-stone-500"} />
+                color={player1.isPlaying ? `bg-${settingState.themeColor}` : state.whoLost === 1 ? "bg-red-500" : "bg-stone-500"} />
             <ToolBar onPlay={handelPlayButton} onPause={handelPauseButton} />
             <NumberBox
                 time={player2.time}
                 click={handelClickPlayer2}
                 playing={player2.isPlaying}
                 moveCount={player2.move}
-                color={player2.isPlaying ? "bg-lime-700" : state.whoLost === 2 ? "bg-red-500" : "bg-stone-500"} />
+                color={player2.isPlaying ? `bg-${settingState.themeColor}` : state.whoLost === 2 ? "bg-red-500" : "bg-stone-500"} />
         </>
     )
 }

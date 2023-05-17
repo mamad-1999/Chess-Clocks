@@ -10,7 +10,7 @@ const NavBar = () => {
     return (
         <nav className="bg-zinc-700 py-4 px-6 shadow-xl flex justify-between items-center">
             <div className="flex items-center justify-start gap-10">
-                <svg onClick={() => router.back()} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 stroke-white cursor-pointer hover:translate-x-1 transition-transform">
+                <svg onClick={() => router.back()} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-8 h-8 stroke-white cursor-pointer">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
                 </svg>
                 <h3 className="text-white text-lg">{pathName.slice(1) === "time" ? "Time Control" : "App setting"}</h3>

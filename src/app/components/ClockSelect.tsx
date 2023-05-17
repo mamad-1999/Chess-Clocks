@@ -14,6 +14,7 @@ type ClockSelectType = {
 
 const ClockSelect = ({ clocks }: ClockSelectType) => {
     const timerState = useAppSelector(state => state.timer)
+    const settingState = useAppSelector(state => state.setting)
     const dispatch = useAppDispatch()
     const router = useRouter()
     const [clockValue, setClockValue] = useState<number>(timerState.player1.time)
@@ -34,7 +35,7 @@ const ClockSelect = ({ clocks }: ClockSelectType) => {
             {clocks.map((clock: ClockType) => (
                 <div key={clock.id} className="w-full flex justify-between px-8 py-2">
                     <label className="text-white" htmlFor={clock.title}>{clock.title}</label>
-                    <input className="bg-zinc-800 border-2 border-zinc-500 text-lime-600 focus:ring-lime-600 focus:ring-offset-2 focus:ring-offset-zinc-800 focus:bg-lime-600 cursor-pointer"
+                    <input className={`bg-zinc-800 border-2 border-zinc-500 text-lime-700 focus:ring-lime-700 focus:ring-offset-2 focus:ring-offset-zinc-800 focus:text-lime-700 cursor-pointer`}
                         type="radio"
                         id={clock.title}
                         name="clock"
@@ -43,7 +44,7 @@ const ClockSelect = ({ clocks }: ClockSelectType) => {
                         onChange={handelClockChange} />
                 </div>
             ))}
-            <button onClick={handelStartWithNewClock} className="bg-lime-600 w-10/12 mt-8 h-10 rounded-lg shadow-xl text-white text-xl font-bold first-letter:text-2xl">Start</button>
+            <button onClick={handelStartWithNewClock} className={`bg-${settingState.themeColor} w-10/12 mt-8 h-10 rounded-lg shadow-xl text-white text-xl font-bold first-letter:text-2xl`}>Start</button>
         </main>
     )
 }

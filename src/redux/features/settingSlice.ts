@@ -6,7 +6,7 @@ type settingState = {
 };
 
 const initialState = {
-  themeColor: "bg-lime-700",
+  themeColor: "lime-700",
 } as settingState;
 
 export const settingSlice = createSlice({
