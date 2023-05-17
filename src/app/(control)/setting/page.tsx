@@ -1,7 +1,10 @@
+import ColorBox from "@/app/components/ColorBox"
 
 const page = () => {
     return (
-        <h3>Setting</h3>
+        <>
+            <ColorBox />
+        </>
     )
 }
 
