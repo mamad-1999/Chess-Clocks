@@ -19,8 +19,12 @@ import {
 } from '@/redux/features/timerSlice'
 import { getLocalStorageItem, setLocalStorageItem } from '../../../util/storage'
 import { clearTime } from '../../../util/clearTime'
-import { playSound } from '../../../util/playSoundClick'
 import { playStatusOff, playStatusOn } from '@/redux/features/toolBarSlice'
+import { Howl } from 'howler'
+
+const sound = new Howl({
+    src: ["/clicksound.mp3"]
+})
 
 const Timer = () => {
     // state and dispatch hook
@@ -42,7 +46,7 @@ const Timer = () => {
 
     const handleClickPlayer = useCallback((player: string, startTime: Function, decrementPlayer: Function, incrementMove: Function) => {
         // check time is end? and check sound is on? if answer is true play sound
-        if (!timer.endTime && toolBar.soundStatus) playSound()
+        if (!timer.endTime && toolBar.soundStatus) sound.play()
         // check isRunning
         if (!player1.isPlaying && !player2.isPlaying && !timer.endTime) {
             handleTime(player, startTime, decrementPlayer, incrementMove)
