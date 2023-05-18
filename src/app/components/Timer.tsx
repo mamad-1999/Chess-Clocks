@@ -24,11 +24,9 @@ import { playStatusOff, playStatusOn } from '@/redux/features/toolBarSlice'
 
 const Timer = () => {
     // state and dispatch hook
-    const state = useAppSelector(state => state.timer)
-    const player1 = useAppSelector(state => state.timer.player1)
-    const player2 = useAppSelector(state => state.timer.player2)
-    const toolBarState = useAppSelector(state => state.toolBar)
-    const settingState = useAppSelector(state => state.setting)
+    const state = useAppSelector(state => state)
+    const { timer, toolBar, setting } = state
+    const { player1, player2 } = timer
     const dispatch = useAppDispatch()
 
     useEffect(() => {
@@ -44,26 +42,26 @@ const Timer = () => {
 
     const handleClickPlayer = useCallback((player: string, startTime: Function, decrementPlayer: Function, incrementMove: Function) => {
         // check time is end? and check sound is on? if answer is true play sound
-        if (!state.endTime && toolBarState.soundStatus) playSound()
+        if (!timer.endTime && toolBar.soundStatus) playSound()
         // check isRunning
-        if (!player1.isPlaying && !player2.isPlaying && !state.endTime) {
-            handelTime(player, startTime, decrementPlayer, incrementMove)
-        } else if ((player1.isPlaying || player2.isPlaying) && !state.endTime) {
+        if (!player1.isPlaying && !player2.isPlaying && !timer.endTime) {
+            handleTime(player, startTime, decrementPlayer, incrementMove)
+        } else if ((player1.isPlaying || player2.isPlaying) && !timer.endTime) {
             if (player1.isPlaying) {
                 dispatch(stopTime1())
             } else {
                 dispatch(stopTime2())
             }
             clearTime() // get intervalId from localStorage and clearInterval 
-            handelTime(player, startTime, decrementPlayer, incrementMove)
+            handleTime(player, startTime, decrementPlayer, incrementMove)
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [state, toolBarState, player1, player2, dispatch])
+    }, [state, toolBar, player1, player2, dispatch])
 
-    const handelClickPlayer1 = () => handleClickPlayer('1', startTime1, decrementPlayer1, incrementMove1);
-    const handelClickPlayer2 = () => handleClickPlayer('2', startTime2, decrementPlayer2, incrementMove2);
+    const handleClickPlayer1 = () => handleClickPlayer('1', startTime1, decrementPlayer1, incrementMove1);
+    const handleClickPlayer2 = () => handleClickPlayer('2', startTime2, decrementPlayer2, incrementMove2);
 
-    const handelTime = useCallback((player: string, dispatchTime: Function, dispatchTimeFunc: Function, incrementMove: Function) => {
+    const handleTime = useCallback((player: string, dispatchTime: Function, dispatchTimeFunc: Function, incrementMove: Function) => {
         dispatch(startTimerHandler())
         dispatch(incrementMove())
         dispatch(dispatchTime())
@@ -76,20 +74,20 @@ const Timer = () => {
     }, [dispatch])
 
 
-    const handelPlayButton = () => {
+    const handlePlayButton = () => {
         dispatch(playStatusOn());
         const lastPlay = String(getLocalStorageItem("lastPlay"));
         console.log(lastPlay);
 
-        if (!state.startTime) {
-            handelClickPlayer1();
+        if (!timer.startTime) {
+            handleClickPlayer1();
             return;
         }
 
-        lastPlay === "1" ? handelClickPlayer1() : handelClickPlayer2();
+        lastPlay === "1" ? handleClickPlayer1() : handleClickPlayer2();
     }
 
-    const handelPauseButton = () => {
+    const handlePauseButton = () => {
         dispatch(playStatusOff())
         dispatch(stopTime1())
         dispatch(stopTime2())
@@ -100,18 +98,18 @@ const Timer = () => {
         <>
             <NumberBox
                 time={player1.time}
-                click={handelClickPlayer1}
+                click={handleClickPlayer1}
                 playing={player1.isPlaying}
                 moveCount={player1.move}
                 mobileStyle={"rotate-180 md:rotate-0"}
-                color={player1.isPlaying ? `${settingState.themeColor}` : state.whoLost === 1 ? "bg-red-500" : "bg-stone-500"} />
-            <ToolBar onPlay={handelPlayButton} onPause={handelPauseButton} />
+                color={player1.isPlaying ? `${setting.themeColor}` : timer.whoLost === 1 ? "bg-red-500" : "bg-stone-500"} />
+            <ToolBar onPlay={handlePlayButton} onPause={handlePauseButton} />
             <NumberBox
                 time={player2.time}
-                click={handelClickPlayer2}
+                click={handleClickPlayer2}
                 playing={player2.isPlaying}
                 moveCount={player2.move}
-                color={player2.isPlaying ? `${settingState.themeColor}` : state.whoLost === 2 ? "bg-red-500" : "bg-stone-500"} />
+                color={player2.isPlaying ? `${setting.themeColor}` : timer.whoLost === 2 ? "bg-red-500" : "bg-stone-500"} />
         </>
     )
 }

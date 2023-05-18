@@ -1,5 +1,4 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { stat } from "fs";
 
 type settingState = {
   themeColor: string;

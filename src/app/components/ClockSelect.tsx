@@ -19,16 +19,16 @@ const ClockSelect = ({ clocks }: ClockSelectType) => {
     const router = useRouter()
     const [clockValue, setClockValue] = useState<number>(timerState.player1.time)
 
-    const handelClockChange = (e: ChangeEvent<HTMLInputElement>) => {
-        const timeValue = e.target.value
-        setClockValue(+timeValue)
-        setLocalStorageItem("time", timeValue)
-    }
+    const handleClockChange = (e: ChangeEvent<HTMLInputElement>) => {
+        const timeValue = e.target.value;
+        setClockValue(+timeValue);
+        setLocalStorageItem("time", timeValue);
+    };
 
-    const handelStartWithNewClock = () => {
-        dispatch(setTimer(clockValue))
-        router.push("/")
-    }
+    const handleStartWithNewClock = () => {
+        dispatch(setTimer(clockValue));
+        router.push("/");
+    };
 
     return (
         <main className="pt-4 max-w-2xl mx-auto flex flex-col justify-center items-center">
@@ -41,10 +41,10 @@ const ClockSelect = ({ clocks }: ClockSelectType) => {
                         name="clock"
                         checked={clockValue === clock.time}
                         value={clock.time}
-                        onChange={handelClockChange} />
+                        onChange={handleClockChange} />
                 </div>
             ))}
-            <button onClick={handelStartWithNewClock} className={`${settingState.themeColor} w-10/12 mt-8 h-10 rounded-lg shadow-xl text-white text-xl font-bold first-letter:text-2xl`}>Start</button>
+            <button onClick={handleStartWithNewClock} className={`${settingState.themeColor} w-10/12 mt-8 h-10 rounded-lg shadow-xl text-white text-xl font-bold first-letter:text-2xl`}>Start</button>
         </main>
     )
 }

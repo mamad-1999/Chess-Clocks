@@ -2,13 +2,9 @@ import fs from "fs";
 import path from "path";
 import { ClockType } from "../types/types";
 
+const clockDataPath = path.join(process.cwd(), "data", "clock.json");
+
 export const getClockData = () => {
-  const clocks = fs.readFileSync(
-    path.join(process.cwd(), "data", "clock.json"),
-    "utf-8"
-  );
-
-  const allClocks: ClockType[] = JSON.parse(clocks);
-
-  return allClocks;
+  const clocks = fs.readFileSync(clockDataPath, "utf-8");
+  return JSON.parse(clocks) as ClockType[];
 };
