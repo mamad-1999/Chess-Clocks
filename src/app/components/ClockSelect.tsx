@@ -44,7 +44,7 @@ const ClockSelect = ({ clocks }: ClockSelectType) => {
                         onChange={handelClockChange} />
                 </div>
             ))}
-            <button onClick={handelStartWithNewClock} className={`bg-${settingState.themeColor} w-10/12 mt-8 h-10 rounded-lg shadow-xl text-white text-xl font-bold first-letter:text-2xl`}>Start</button>
+            <button onClick={handelStartWithNewClock} className={`${settingState.themeColor} w-10/12 mt-8 h-10 rounded-lg shadow-xl text-white text-xl font-bold first-letter:text-2xl`}>Start</button>
         </main>
     )
 }
