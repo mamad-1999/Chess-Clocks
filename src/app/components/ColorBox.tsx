@@ -1,6 +1,7 @@
 "use client"
 
 import { setThemeColor } from "@/redux/features/settingSlice"
+import { soundControl } from "@/redux/features/toolBarSlice"
 import { useAppDispatch, useAppSelector } from "@/redux/hook"
 const colors = [
     "bg-lime-700",
@@ -13,10 +14,15 @@ const colors = [
 
 const ColorBox = () => {
     const settingState = useAppSelector(state => state.setting)
+    const toolBarState = useAppSelector(state => state.toolBar)
     const dispatch = useAppDispatch()
 
     const handleChangeThemeColor = (color: string) => {
         dispatch(setThemeColor(color))
+    }
+
+    const onToggleSoundSetting = () => {
+        dispatch(soundControl())
     }
     return (
         <main className="pt-8 px-4 max-w-2xl mx-auto flex flex-col justify-center">
@@ -29,6 +35,27 @@ const ColorBox = () => {
                         </svg> : null}
                     </div>
                 ))}
+            </div>
+            <div className="flex justify-between items-center mt-12 px-4">
+                <h3 className="text-white">Sound</h3>
+                <div className="flex flex-col justify-center items-center">
+                    <div className="flex justify-center items-center">
+                        <span className="">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="h-6 w-6 text-gray-500">
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M17.25 9.75L19.5 12m0 0l2.25 2.25M19.5 12l2.25-2.25M19.5 12l-2.25 2.25m-10.5-6l4.72-4.72a.75.75 0 011.28.531V19.94a.75.75 0 01-1.28.53l-4.72-4.72H4.51c-.88 0-1.704-.506-1.938-1.354A9.01 9.01 0 012.25 12c0-.83.112-1.633.322-2.395C2.806 8.757 3.63 8.25 4.51 8.25H6.75z" />
+                            </svg>
+                        </span>
+                        <div onClick={onToggleSoundSetting} className={`w-14 h-7 flex items-center cursor-pointer ${toolBarState.soundStatus ? settingState.themeColor : "bg-gray-600"} rounded-full mx-3 px-1`} >
+                            <div className={`bg-white w-5 h-5 rounded-full shadow-md transform transition-transform ${toolBarState.soundStatus && "translate-x-7"}`} >
+                            </div>
+                        </div>
+                        <span className="">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="h-6 w-6 text-gray-400">
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M19.114 5.636a9 9 0 010 12.728M16.463 8.288a5.25 5.25 0 010 7.424M6.75 8.25l4.72-4.72a.75.75 0 011.28.53v15.88a.75.75 0 01-1.28.53l-4.72-4.72H4.51c-.88 0-1.704-.507-1.938-1.354A9.01 9.01 0 012.25 12c0-.83.112-1.633.322-2.396C2.806 8.756 3.63 8.25 4.51 8.25H6.75z" />
+                            </svg>
+                        </span>
+                    </div>
+                </div>
             </div>
         </main >
     )
