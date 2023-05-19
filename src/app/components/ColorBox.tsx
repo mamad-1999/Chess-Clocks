@@ -13,8 +13,7 @@ const colors = [
 ]
 
 const ColorBox = () => {
-    const settingState = useAppSelector(state => state.setting)
-    const toolBarState = useAppSelector(state => state.toolBar)
+    const { setting, toolBar } = useAppSelector(state => state)
     const dispatch = useAppDispatch()
 
     const handleChangeThemeColor = (color: string) => {
@@ -27,10 +26,10 @@ const ColorBox = () => {
     return (
         <main className="pt-8 px-4 max-w-2xl mx-auto flex flex-col justify-center">
             <h3 className="text-white">Theme color</h3>
-            <div className="flex items-center justify-center pt-4 gap-5 sm:gap-4">
+            <div className="flex items-center justify-center pt-4 gap-4 sm:gap-4">
                 {colors.map(color => (
-                    <div onClick={() => handleChangeThemeColor(color)} key={color} className={`w-10 sm:w-16 h-10 sm:h-16 ${color} rounded-full cursor-pointer shadow-xl flex items-center justify-center`}>
-                        {color === settingState.themeColor ? <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 stroke-white">
+                    <div onClick={() => handleChangeThemeColor(color)} key={color} className={`w-10 sm:w-16 h-10 sm:h-16 ${color} ${color === setting.themeColor && "ring-2 ring-white ring-offset-4 ring-offset-gray-800"} rounded-full cursor-pointer shadow-xl flex items-center justify-center`}>
+                        {color === setting.themeColor ? <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 stroke-white">
                             <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
                         </svg> : null}
                     </div>
@@ -45,8 +44,8 @@ const ColorBox = () => {
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M17.25 9.75L19.5 12m0 0l2.25 2.25M19.5 12l2.25-2.25M19.5 12l-2.25 2.25m-10.5-6l4.72-4.72a.75.75 0 011.28.531V19.94a.75.75 0 01-1.28.53l-4.72-4.72H4.51c-.88 0-1.704-.506-1.938-1.354A9.01 9.01 0 012.25 12c0-.83.112-1.633.322-2.395C2.806 8.757 3.63 8.25 4.51 8.25H6.75z" />
                             </svg>
                         </span>
-                        <div onClick={onToggleSoundSetting} className={`w-14 h-7 flex items-center cursor-pointer ${toolBarState.soundStatus ? settingState.themeColor : "bg-gray-600"} rounded-full mx-3 px-1`} >
-                            <div className={`bg-white w-5 h-5 rounded-full shadow-md transform transition-transform ${toolBarState.soundStatus && "translate-x-7"}`} >
+                        <div onClick={onToggleSoundSetting} className={`w-14 h-7 flex items-center cursor-pointer ${toolBar.soundStatus ? setting.themeColor : "bg-gray-600"} rounded-full mx-3 px-1`} >
+                            <div className={`bg-white w-5 h-5 rounded-full shadow-md transform transition-transform ${toolBar.soundStatus && "translate-x-7"}`} >
                             </div>
                         </div>
                         <span className="">
