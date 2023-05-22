@@ -1,13 +1,13 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 type SingleTimeStateType = {
-  player: "2" | "1" | "";
+  player: string;
   showSingleTime: boolean;
 };
 
 const initialState = {
   player: "",
-  showSingleTime: false,
+  showSingleTime: true,
 } as SingleTimeStateType;
 
 export const singleTime = createSlice({
@@ -20,7 +20,7 @@ export const singleTime = createSlice({
     closeSingleTimeHandler: (state) => {
       state.showSingleTime = false;
     },
-    singleTimeChangePlayer: (state, action: PayloadAction<"2" | "1">) => {
+    singleTimeChangePlayer: (state, action: PayloadAction<string>) => {
       state.player = action.payload;
     },
   },

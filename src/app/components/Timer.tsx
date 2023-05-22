@@ -17,6 +17,7 @@ import {
     setLostPlayer,
     startTimerHandler
 } from '@/redux/features/timerSlice'
+import { showSingleTimeHandler, singleTimeChangePlayer } from '@/redux/features/singleTimeSlice'
 import { getLocalStorageItem, setLocalStorageItem } from '../../../util/storage'
 import { clearTime } from '../../../util/clearTime'
 import { playStatusOff, playStatusOn } from '@/redux/features/toolBarSlice'
@@ -98,11 +99,20 @@ const Timer = () => {
         clearTime()
     }
 
+    const handleShowSingleTime = (player: string) => {
+        dispatch(showSingleTimeHandler())
+        dispatch(singleTimeChangePlayer(player))
+    }
+
+    const changeTimer1 = () => handleShowSingleTime("1")
+    const changeTimer2 = () => handleShowSingleTime("2")
+
     return (
         <>
             <NumberBox
                 time={player1.time}
                 click={handleClickPlayer1}
+                changeTime={changeTimer1}
                 playing={player1.isPlaying}
                 moveCount={player1.move}
                 mobileStyle={"rotate-180 md:rotate-0"}
@@ -111,6 +121,7 @@ const Timer = () => {
             <NumberBox
                 time={player2.time}
                 click={handleClickPlayer2}
+                changeTime={changeTimer2}
                 playing={player2.isPlaying}
                 moveCount={player2.move}
                 color={player2.isPlaying ? `${setting.themeColor}` : timer.whoLost === 2 ? "bg-red-500" : "bg-stone-500"} />
