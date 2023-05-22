@@ -7,7 +7,7 @@ type SingleTimeStateType = {
 
 const initialState = {
   player: "",
-  showSingleTime: true,
+  showSingleTime: false,
 } as SingleTimeStateType;
 
 export const singleTime = createSlice({

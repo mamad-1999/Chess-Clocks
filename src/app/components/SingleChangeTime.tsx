@@ -1,13 +1,39 @@
 "use client"
+
 import { useAppDispatch, useAppSelector } from "@/redux/hook";
-import { useState } from "react";
+import { useState, ChangeEvent } from "react";
+import { formatMinute, formatSecond, getMillisecondValue } from "../../../util/formatTime";
+import { changeTime1, changeTime2 } from "@/redux/features/timerSlice";
+import { closeSingleTimeHandler } from "@/redux/features/singleTimeSlice";
 
 export default function Modal() {
-    const [minute, setMinute] = useState(0)
-    const [second, setSecond] = useState(0)
+    console.log("first")
     const singleTimeState = useAppSelector(state => state.singleTime)
     const settingState = useAppSelector(state => state.setting)
+    const timerState = useAppSelector(state => state.timer)
     const dispatch = useAppDispatch()
+    const [minute, setMinute] = useState<number>(
+        (singleTimeState.player === "1") ?
+            formatMinute(timerState.player1.time) :
+            formatMinute(timerState.player2.time))
+    const [second, setSecond] = useState<number>(
+        (singleTimeState.player === "1") ?
+            formatSecond(timerState.player1.time) :
+            formatSecond(timerState.player2.time))
+
+    const handelChangeMinute = (e: ChangeEvent<HTMLInputElement>) => {
+        setMinute(+e.target.value)
+    }
+
+    const handelChangeSecond = (e: ChangeEvent<HTMLInputElement>) => {
+        setSecond(+e.target.value)
+    }
+
+    const changeTime = () => {
+        const milliSecond = getMillisecondValue(minute, second);
+        (singleTimeState.player === "1") ? dispatch(changeTime1(milliSecond)) : dispatch(changeTime2(milliSecond))
+        dispatch(closeSingleTimeHandler())
+    }
 
     return (
         <>
@@ -31,24 +57,34 @@ export default function Modal() {
                                 </div>
                                 <div className="flex items-center justify-center gap-2">
                                     <div className="flex flex-col justify-center gap-1">
-                                        <input id="minute" type="text" className={`w-20 h-20 flex text-center text-5xl outline-none border-0 p-0 bg-zinc-700 text-white rounded caret-white focus:bg-lime-700 focus:ring-lime-700 selection:bg-lime-800`} maxLength={2} />
+                                        <input id="minute" type="text" className={`w-20 h-20 flex text-center text-5xl outline-none border-0 p-0 bg-zinc-700 text-white rounded caret-white focus:bg-lime-700 focus:ring-lime-700 selection:bg-lime-800`}
+                                            maxLength={2}
+                                            value={minute}
+                                            onChange={(e) => handelChangeMinute(e)}
+                                        />
                                         <label className="text-stone-300 text-sm select-none" htmlFor="minute">Minute</label>
                                     </div>
                                     <span className="text-white text-clip text-5xl">:</span>
                                     <div className="flex flex-col justify-center gap-1">
-                                        <input id="second" type="text" className={`w-20 h-20 flex text-center text-5xl outline-none border-0 p-0 bg-zinc-700 text-white rounded caret-white focus:bg-lime-700 focus:ring-lime-700 selection:bg-lime-800`} maxLength={2} />
+                                        <input id="second" type="text" className={`w-20 h-20 flex text-center text-5xl outline-none border-0 p-0 bg-zinc-700 text-white rounded caret-white focus:bg-lime-700 focus:ring-lime-700 selection:bg-lime-800`}
+                                            maxLength={2}
+                                            value={second}
+                                            onChange={(e) => handelChangeSecond(e)}
+                                        />
                                         <label className="text-stone-300 text-sm select-none" htmlFor="second">Second</label>
                                     </div>
                                 </div>
                                 {/*footer*/}
                                 <div className="flex gap-3 items-center justify-end py-4 px-6 rounded-b mt-2 select-none">
                                     <button
+                                        onClick={() => dispatch(closeSingleTimeHandler())}
                                         className="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                                         type="button"
                                     >
                                         CANCEL
                                     </button>
                                     <button
+                                        onClick={changeTime}
                                         className={` text-white ${settingState.themeColor} active:bg-emerald-600 font-bold uppercase text-sm px-6 py-2 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150`}
                                         type="button"
                                     >

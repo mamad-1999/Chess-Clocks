@@ -46,6 +46,12 @@ export const timer = createSlice({
     incrementMove2: (state) => {
       state.player2.move += 1;
     },
+    changeTime1: (state, action: PayloadAction<number>) => {
+      state.player1.time = action.payload;
+    },
+    changeTime2: (state, action: PayloadAction<number>) => {
+      state.player2.time = action.payload;
+    },
     endTimeHandler: (state) => {
       state.endTime = true;
     },
@@ -82,6 +88,8 @@ export const {
   stopTime2,
   incrementMove1,
   incrementMove2,
+  changeTime1,
+  changeTime2,
   endTimeHandler,
   startTimerHandler,
   setLostPlayer,
