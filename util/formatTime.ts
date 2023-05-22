@@ -4,16 +4,16 @@ export function formatTime(time: number) {
   return `${minutes}:${+seconds < 10 ? "0" : ""}${seconds}`;
 }
 
-export function formatMinute(time: number): number {
+export function formatMinute(time: number) {
   const minute = Math.floor(time / 60000);
 
-  return minute;
+  return `${minute < 10 ? "0" : ""}${minute}`;
 }
 
-export function formatSecond(time: number): number {
-  const second = +((time % 60000) / 1000).toFixed(2);
+export function formatSecond(time: number) {
+  const second = Math.floor(+((time % 60000) / 1000));
 
-  return second;
+  return `${second < 10 ? "0" : ""}${second}`;
 }
 
 export function getMillisecondValue(minute: number, second: number): number {

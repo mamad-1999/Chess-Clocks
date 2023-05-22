@@ -1,7 +1,7 @@
 "use client"
 
 import { useAppDispatch, useAppSelector } from "@/redux/hook";
-import { useState, ChangeEvent } from "react";
+import { useState, ChangeEvent, useEffect } from "react";
 import { formatMinute, formatSecond, getMillisecondValue } from "../../../util/formatTime";
 import { changeTime1, changeTime2 } from "@/redux/features/timerSlice";
 import { closeSingleTimeHandler } from "@/redux/features/singleTimeSlice";
@@ -12,14 +12,30 @@ export default function Modal() {
     const settingState = useAppSelector(state => state.setting)
     const timerState = useAppSelector(state => state.timer)
     const dispatch = useAppDispatch()
-    const [minute, setMinute] = useState<number>(
+    const [minute, setMinute] = useState<number | string>(
         (singleTimeState.player === "1") ?
             formatMinute(timerState.player1.time) :
             formatMinute(timerState.player2.time))
-    const [second, setSecond] = useState<number>(
+    const [second, setSecond] = useState<number | string>(
         (singleTimeState.player === "1") ?
             formatSecond(timerState.player1.time) :
             formatSecond(timerState.player2.time))
+
+
+    useEffect(() => {
+        setMinute((singleTimeState.player === "1") ?
+            formatMinute(timerState.player1.time) :
+            formatMinute(timerState.player2.time))
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [singleTimeState.showSingleTime])
+
+
+    useEffect(() => {
+        setSecond((singleTimeState.player === "1") ?
+            formatSecond(timerState.player1.time) :
+            formatSecond(timerState.player2.time))
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [singleTimeState.showSingleTime])
 
     const handelChangeMinute = (e: ChangeEvent<HTMLInputElement>) => {
         setMinute(+e.target.value)
@@ -30,7 +46,7 @@ export default function Modal() {
     }
 
     const changeTime = () => {
-        const milliSecond = getMillisecondValue(minute, second);
+        const milliSecond = getMillisecondValue(+minute, +second);
         (singleTimeState.player === "1") ? dispatch(changeTime1(milliSecond)) : dispatch(changeTime2(milliSecond))
         dispatch(closeSingleTimeHandler())
     }
