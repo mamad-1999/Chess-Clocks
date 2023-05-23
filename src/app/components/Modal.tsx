@@ -19,7 +19,7 @@ export default function Modal() {
 
     const resetTimer = () => {
         clearTime()
-        dispatch(reset(localStorage.getItem("time")))
+        dispatch(reset(Number(localStorage.getItem("time"))))
         dispatch(closeModalHandler())
         sound.play()
     }
