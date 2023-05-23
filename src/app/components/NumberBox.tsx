@@ -27,7 +27,7 @@ const NumberBox = (
     return (
         <div className="w-full flex  justify-center md:w-1/2 md:h-screen h-1/2 relative select-none">
             {!toolBarState.playStatus ? <button onClick={() => changeTime()} className="absolute bottom-3">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-10 h-10">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="md:w-10 w-8 md:h-10 h-8">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 6h9.75M10.5 6a1.5 1.5 0 11-3 0m3 0a1.5 1.5 0 10-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-9.75 0h9.75" />
                 </svg>
             </button> : null}
@@ -41,7 +41,7 @@ const NumberBox = (
                 </span>
                 <h3
                     className={`text-8xl md:text-8xl text-center font-semibold ${color === "bg-stone-500" ? "text-zinc-900" : "text-white"} ${mobileStyle}`}>
-                    {formatTime(time).substring(-1, 4)}
+                    {formatTime(time).substring(-1, 5)}
                     {/* example => 5:00 */}
                     <span className="text-5xl">{formatTime(time).substring(5, 9)}</span>
                     {/* example => 000 => milliSecond */}

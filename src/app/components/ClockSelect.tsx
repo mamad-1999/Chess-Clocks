@@ -6,23 +6,22 @@ import { ClockType } from "../../../types/types"
 import { useAppDispatch } from "@/redux/hook"
 import { useAppSelector } from "@/redux/hook"
 import { setTimer } from "@/redux/features/timerSlice"
-import { setLocalStorageItem } from "../../../util/storage"
 
 type ClockSelectType = {
     clocks: ClockType[]
 }
 
 const ClockSelect = ({ clocks }: ClockSelectType) => {
-    const timerState = useAppSelector(state => state.timer)
-    const settingState = useAppSelector(state => state.setting)
-    const dispatch = useAppDispatch()
-    const router = useRouter()
-    const [clockValue, setClockValue] = useState<number>(timerState.player1.time)
+    const timerState = useAppSelector(state => state.timer);
+    const settingState = useAppSelector(state => state.setting);
+    const dispatch = useAppDispatch();
+    const router = useRouter();
+    const [clockValue, setClockValue] = useState<number>(timerState.player1.time);
 
     const handleClockChange = (e: ChangeEvent<HTMLInputElement>) => {
         const timeValue = e.target.value;
         setClockValue(+timeValue);
-        setLocalStorageItem("time", timeValue);
+        localStorage.setItem("time", timeValue);
     };
 
     const handleStartWithNewClock = () => {

@@ -3,7 +3,6 @@
 import { closeModalHandler } from "@/redux/features/modalSlice";
 import { useAppSelector, useAppDispatch } from "@/redux/hook";
 import { reset } from "@/redux/features/timerSlice";
-import { getLocalStorageItem } from "../../../util/storage";
 import { clearTime } from "../../../util/clearTime";
 import { Howl } from "howler";
 
@@ -12,13 +11,15 @@ const sound = new Howl({
 })
 
 export default function Modal() {
-    const modalState = useAppSelector(state => state.modal)
-    const setting = useAppSelector(state => state.setting)
+    const { modalState, setting } = useAppSelector(state => ({
+        modalState: state.modal,
+        setting: state.setting
+    }))
     const dispatch = useAppDispatch()
 
     const resetTimer = () => {
         clearTime()
-        dispatch(reset(getLocalStorageItem("time")))
+        dispatch(reset(localStorage.getItem("time")))
         dispatch(closeModalHandler())
         sound.play()
     }

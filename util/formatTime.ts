@@ -1,19 +1,22 @@
 export function formatTime(time: number) {
   const minutes = Math.floor(time / 60000);
-  const seconds = ((time % 60000) / 1000).toFixed(3);
+  const seconds = ((time % 60000) / 1000).toFixed(2);
   return `${minutes}:${+seconds < 10 ? "0" : ""}${seconds}`;
 }
-
 export function formatMinute(time: number) {
-  const minute = Math.floor(time / 60000);
+  const minute = Math.floor(time / 60000)
+    .toString()
+    .padStart(2, "0");
 
-  return `${minute < 10 ? "0" : ""}${minute}`;
+  return minute;
 }
 
 export function formatSecond(time: number) {
-  const second = Math.floor(+((time % 60000) / 1000));
+  const second = Math.floor(+((time % 60000) / 1000))
+    .toString()
+    .padStart(2, "0");
 
-  return `${second < 10 ? "0" : ""}${second}`;
+  return second;
 }
 
 export function getMillisecondValue(minute: number, second: number): number {

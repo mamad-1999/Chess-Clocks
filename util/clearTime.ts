@@ -1,7 +1,6 @@
-import { getLocalStorageItem } from "./storage";
-
 export const clearTime = () => {
-  if (getLocalStorageItem("interval") !== null) {
-    clearInterval(Number(getLocalStorageItem("interval")));
+  const interval = localStorage.getItem("interval");
+  if (interval !== null) {
+    clearInterval(Number(interval));
   }
 };

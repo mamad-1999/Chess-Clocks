@@ -18,7 +18,6 @@ import {
     startTimerHandler
 } from '@/redux/features/timerSlice'
 import { showSingleTimeHandler, singleTimeChangePlayer } from '@/redux/features/singleTimeSlice'
-import { getLocalStorageItem, setLocalStorageItem } from '../../../util/storage'
 import { clearTime } from '../../../util/clearTime'
 import { playStatusOff, playStatusOn } from '@/redux/features/toolBarSlice'
 import { Howl } from 'howler'
@@ -71,18 +70,17 @@ const Timer = () => {
         dispatch(incrementMove())
         dispatch(dispatchTime())
         dispatch(playStatusOn())
-        setLocalStorageItem("lastPlay", player)
+        localStorage.setItem("lastPlay", player)
         const time = setInterval(() => {
             dispatch(dispatchTimeFunc(10))
         }, 10) // => 10 milliSecond
-        setLocalStorageItem("interval", JSON.stringify(time))
+        localStorage.setItem("interval", JSON.stringify(time))
     }, [dispatch])
 
 
     const handlePlayButton = () => {
         dispatch(playStatusOn());
-        const lastPlay = String(getLocalStorageItem("lastPlay"));
-        console.log(lastPlay);
+        const lastPlay = localStorage.getItem("lastPlay")
 
         if (!timer.startTime) {
             handleClickPlayer1();

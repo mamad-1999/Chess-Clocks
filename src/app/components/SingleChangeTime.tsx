@@ -7,56 +7,54 @@ import { changeTime1, changeTime2 } from "@/redux/features/timerSlice";
 import { closeSingleTimeHandler } from "@/redux/features/singleTimeSlice";
 
 export default function Modal() {
-    console.log("first")
-    const singleTimeState = useAppSelector(state => state.singleTime)
-    const settingState = useAppSelector(state => state.setting)
-    const timerState = useAppSelector(state => state.timer)
+    const { singleTime, setting, timer } = useAppSelector(state => ({
+        singleTime: state.singleTime,
+        setting: state.setting,
+        timer: state.timer,
+    }))
     const dispatch = useAppDispatch()
+
     const [minute, setMinute] = useState<number | string>(
-        (singleTimeState.player === "1") ?
-            formatMinute(timerState.player1.time) :
-            formatMinute(timerState.player2.time))
+        (singleTime.player === "1") ?
+            formatMinute(timer.player1.time) :
+            formatMinute(timer.player2.time))
     const [second, setSecond] = useState<number | string>(
-        (singleTimeState.player === "1") ?
-            formatSecond(timerState.player1.time) :
-            formatSecond(timerState.player2.time))
-
-
-    useEffect(() => {
-        setMinute((singleTimeState.player === "1") ?
-            formatMinute(timerState.player1.time) :
-            formatMinute(timerState.player2.time))
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [singleTimeState.showSingleTime])
-
+        (singleTime.player === "1") ?
+            formatSecond(timer.player1.time) :
+            formatSecond(timer.player2.time))
 
     useEffect(() => {
-        setSecond((singleTimeState.player === "1") ?
-            formatSecond(timerState.player1.time) :
-            formatSecond(timerState.player2.time))
+        const { player } = singleTime;
+        const { player1, player2 } = timer;
+        const { time: player1Time } = player1;
+        const { time: player2Time } = player2;
+        const time = (player === "1") ? player1Time : player2Time;
+        setMinute(formatMinute(time));
+        setSecond(formatSecond(time));
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [singleTimeState.showSingleTime])
+    }, [singleTime.showSingleTime, singleTime.player]);
 
-    const handelChangeMinute = (e: ChangeEvent<HTMLInputElement>) => {
-        setMinute(+e.target.value)
-    }
-
-    const handelChangeSecond = (e: ChangeEvent<HTMLInputElement>) => {
-        setSecond(+e.target.value)
-    }
+    const handleChangeTime = (e: ChangeEvent<HTMLInputElement>) => {
+        const { name, value } = e.target;
+        if (name === 'minute') {
+            setMinute(+value);
+        } else if (name === 'second') {
+            setSecond(+value);
+        }
+    };
 
     const changeTime = () => {
         const milliSecond = getMillisecondValue(+minute, +second);
-        (singleTimeState.player === "1") ? dispatch(changeTime1(milliSecond)) : dispatch(changeTime2(milliSecond))
+        singleTime.player === "1" ? dispatch(changeTime1(milliSecond)) : dispatch(changeTime2(milliSecond))
         dispatch(closeSingleTimeHandler())
     }
 
     return (
         <>
-            {singleTimeState.showSingleTime ? (
+            {singleTime.showSingleTime ? (
                 <>
                     <div
-                        className={`justify-center  items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none ${singleTimeState.showSingleTime && "bg-stone-500/70"}`}
+                        className={`justify-center  items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none ${singleTime.showSingleTime && "bg-stone-500/70"} md:rotate-0 ${singleTime.player === "1" && "rotate-180"}`}
                     >
                         <div className="relative w-auto my-6 mx-auto max-w-3xl">
                             {/*content*/}
@@ -76,7 +74,8 @@ export default function Modal() {
                                         <input id="minute" type="text" className={`w-20 h-20 flex text-center text-5xl outline-none border-0 p-0 bg-zinc-700 text-white rounded caret-white focus:bg-lime-700 focus:ring-lime-700 selection:bg-lime-800`}
                                             maxLength={2}
                                             value={minute}
-                                            onChange={(e) => handelChangeMinute(e)}
+                                            name="minute"
+                                            onChange={(e) => handleChangeTime(e)}
                                         />
                                         <label className="text-stone-300 text-sm select-none" htmlFor="minute">Minute</label>
                                     </div>
@@ -85,7 +84,8 @@ export default function Modal() {
                                         <input id="second" type="text" className={`w-20 h-20 flex text-center text-5xl outline-none border-0 p-0 bg-zinc-700 text-white rounded caret-white focus:bg-lime-700 focus:ring-lime-700 selection:bg-lime-800`}
                                             maxLength={2}
                                             value={second}
-                                            onChange={(e) => handelChangeSecond(e)}
+                                            name="second"
+                                            onChange={(e) => handleChangeTime(e)}
                                         />
                                         <label className="text-stone-300 text-sm select-none" htmlFor="second">Second</label>
                                     </div>
@@ -101,7 +101,7 @@ export default function Modal() {
                                     </button>
                                     <button
                                         onClick={changeTime}
-                                        className={` text-white ${settingState.themeColor} active:bg-emerald-600 font-bold uppercase text-sm px-6 py-2 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150`}
+                                        className={` text-white ${setting.themeColor} active:bg-emerald-600 font-bold uppercase text-sm px-6 py-2 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150`}
                                         type="button"
                                     >
                                         SAVE TIME
