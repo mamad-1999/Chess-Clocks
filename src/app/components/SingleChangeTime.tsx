@@ -6,6 +6,7 @@ import { formatMinute, formatSecond, getMillisecondValue } from "../../../util/f
 import { changeTime1, changeTime2 } from "@/redux/features/timerSlice";
 import { closeSingleTimeHandler } from "@/redux/features/singleTimeSlice";
 
+
 export default function Modal() {
     const { singleTime, setting, timer } = useAppSelector(state => ({
         singleTime: state.singleTime,
@@ -36,9 +37,9 @@ export default function Modal() {
 
     const handleChangeTime = (e: ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
-        if (name === 'minute') {
+        if (name === "minute" && !isNaN(+value)) {
             setMinute(+value);
-        } else if (name === 'second') {
+        } else if (name === "second" && !isNaN(+value)) {
             setSecond(+value);
         }
     };
@@ -72,8 +73,8 @@ export default function Modal() {
                                 <div className="flex items-center justify-center gap-2">
                                     <div className="flex flex-col justify-center gap-1">
                                         <input id="minute" type="text" className={`w-20 h-20 flex text-center text-5xl outline-none border-0 p-0 bg-zinc-700 text-white rounded caret-white focus:bg-lime-700 focus:ring-lime-700 selection:bg-lime-800`}
-                                            maxLength={2}
                                             value={minute}
+                                            maxLength={2}
                                             name="minute"
                                             onChange={(e) => handleChangeTime(e)}
                                         />
@@ -82,9 +83,9 @@ export default function Modal() {
                                     <span className="text-white text-clip text-5xl">:</span>
                                     <div className="flex flex-col justify-center gap-1">
                                         <input id="second" type="text" className={`w-20 h-20 flex text-center text-5xl outline-none border-0 p-0 bg-zinc-700 text-white rounded caret-white focus:bg-lime-700 focus:ring-lime-700 selection:bg-lime-800`}
-                                            maxLength={2}
                                             value={second}
                                             name="second"
+                                            maxLength={2}
                                             onChange={(e) => handleChangeTime(e)}
                                         />
                                         <label className="text-stone-300 text-sm select-none" htmlFor="second">Second</label>
