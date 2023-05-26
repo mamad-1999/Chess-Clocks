@@ -4,19 +4,18 @@ import { ChangeEvent, useState } from "react"
 import { useRouter } from "next/navigation"
 import { ClockType } from "../../../types/types"
 import { useAppDispatch } from "@/redux/hook"
-import { useAppSelector } from "@/redux/hook"
 import { setTimer } from "@/redux/features/timerSlice"
+import useReduxState from "../../../hooks/useReduxState"
 
 type ClockSelectType = {
     clocks: ClockType[]
 }
 
 const ClockSelect = ({ clocks }: ClockSelectType) => {
-    const timerState = useAppSelector(state => state.timer);
-    const settingState = useAppSelector(state => state.setting);
+    const { setting, timer } = useReduxState()
     const dispatch = useAppDispatch();
     const router = useRouter();
-    const [clockValue, setClockValue] = useState<number>(timerState.player1.time);
+    const [clockValue, setClockValue] = useState<number>(timer.player1.time);
 
     const handleClockChange = (e: ChangeEvent<HTMLInputElement>) => {
         const timeValue = e.target.value;
@@ -43,7 +42,7 @@ const ClockSelect = ({ clocks }: ClockSelectType) => {
                         onChange={handleClockChange} />
                 </div>
             ))}
-            <button onClick={handleStartWithNewClock} className={`${settingState.themeColor} w-10/12 mt-8 h-12 rounded-lg shadow-xl text-white text-xl font-bold first-letter:text-2xl`}>Start</button>
+            <button onClick={handleStartWithNewClock} className={`${setting.themeColor} w-10/12 mt-8 h-12 rounded-lg shadow-xl text-white text-xl font-bold first-letter:text-2xl`}>Start</button>
         </main>
     )
 }

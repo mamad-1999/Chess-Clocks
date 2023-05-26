@@ -2,8 +2,9 @@
 
 import Link from "next/link"
 import { soundControl } from "@/redux/features/toolBarSlice"
-import { useAppDispatch, useAppSelector } from "@/redux/hook"
+import { useAppDispatch } from "@/redux/hook"
 import { showModalHandler } from "@/redux/features/modalSlice"
+import useReduxState from "../../../hooks/useReduxState"
 
 type ToolBarProps = {
     onPlay: () => void,
@@ -11,10 +12,7 @@ type ToolBarProps = {
 }
 
 const ToolBar = ({ onPlay, onPause }: ToolBarProps) => {
-    const { toolBar, timer } = useAppSelector(state => ({
-        toolBar: state.toolBar,
-        timer: state.timer,
-    }))
+    const { toolBar, timer } = useReduxState()
     const dispatch = useAppDispatch()
 
     const onShowModal = () => {

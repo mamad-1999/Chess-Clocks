@@ -1,18 +1,15 @@
 "use client"
 
-import { useAppDispatch, useAppSelector } from "@/redux/hook";
+import { useAppDispatch } from "@/redux/hook";
 import { useState, ChangeEvent, useEffect } from "react";
 import { formatMinute, formatSecond, getMillisecondValue } from "../../../util/formatTime";
 import { changeTime1, changeTime2 } from "@/redux/features/timerSlice";
 import { closeSingleTimeHandler } from "@/redux/features/singleTimeSlice";
+import useReduxState from "../../../hooks/useReduxState";
 
 
 export default function Modal() {
-    const { singleTime, setting, timer } = useAppSelector(state => ({
-        singleTime: state.singleTime,
-        setting: state.setting,
-        timer: state.timer,
-    }))
+    const { singleTime, setting, timer } = useReduxState()
     const dispatch = useAppDispatch()
 
     const [minute, setMinute] = useState<number | string>(

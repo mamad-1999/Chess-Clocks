@@ -1,20 +1,18 @@
 "use client"
 
 import { closeModalHandler } from "@/redux/features/modalSlice";
-import { useAppSelector, useAppDispatch } from "@/redux/hook";
+import { useAppDispatch } from "@/redux/hook";
 import { reset } from "@/redux/features/timerSlice";
 import { clearTime } from "../../../util/clearTime";
 import { Howl } from "howler";
+import useReduxState from "../../../hooks/useReduxState";
 
 const sound = new Howl({
     src: ["/resetSound.mp3"]
 })
 
 export default function Modal() {
-    const { modalState, setting } = useAppSelector(state => ({
-        modalState: state.modal,
-        setting: state.setting
-    }))
+    const { modal, setting } = useReduxState()
     const dispatch = useAppDispatch()
 
     const resetTimer = () => {
@@ -25,10 +23,10 @@ export default function Modal() {
     }
     return (
         <>
-            {modalState.showModal ? (
+            {modal.showModal ? (
                 <>
                     <div
-                        className={`justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none ${modalState.showModal && "bg-stone-500/70"}`}
+                        className={`justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none ${modal.showModal && "bg-stone-500/70"}`}
                     >
                         <div className="relative w-auto my-6 mx-auto max-w-3xl">
                             {/*content*/}

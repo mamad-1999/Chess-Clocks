@@ -2,7 +2,8 @@
 
 import { setThemeColor } from "@/redux/features/settingSlice"
 import { soundControl } from "@/redux/features/toolBarSlice"
-import { useAppDispatch, useAppSelector } from "@/redux/hook"
+import { useAppDispatch } from "@/redux/hook"
+import useReduxState from "../../../../hooks/useReduxState"
 const colors = [
     "bg-lime-700",
     "bg-cyan-700",
@@ -13,7 +14,7 @@ const colors = [
 ]
 
 const ColorBox = () => {
-    const { setting, toolBar } = useAppSelector(state => state)
+    const { setting, toolBar } = useReduxState()
     const dispatch = useAppDispatch()
 
     const handleChangeThemeColor = (color: string) => {

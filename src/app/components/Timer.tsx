@@ -3,7 +3,7 @@
 import { useCallback, useEffect } from 'react'
 import NumberBox from './NumberBox'
 import ToolBar from './ToolBar'
-import { useAppDispatch, useAppSelector } from '@/redux/hook'
+import { useAppDispatch } from '@/redux/hook'
 import {
     startTime1,
     decrementPlayer1,
@@ -21,6 +21,7 @@ import { showSingleTimeHandler, singleTimeChangePlayer } from '@/redux/features/
 import { clearTime } from '../../../util/clearTime'
 import { playStatusOff, playStatusOn } from '@/redux/features/toolBarSlice'
 import { Howl } from 'howler'
+import useReduxState from '../../../hooks/useReduxState'
 
 const sound = new Howl({
     src: ["/clicksound.mp3"]
@@ -28,8 +29,7 @@ const sound = new Howl({
 
 const Timer = () => {
     // state and dispatch hook
-    const state = useAppSelector(state => state)
-    const { timer, toolBar, setting } = state
+    const { timer, setting, toolBar } = useReduxState()
     const { player1, player2 } = timer
     const dispatch = useAppDispatch()
 
@@ -60,7 +60,7 @@ const Timer = () => {
             handleTime(player, startTime, decrementPlayer, incrementMove)
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [state, toolBar, player1, player2, dispatch])
+    }, [toolBar, player1, player2, dispatch])
 
     const handleClickPlayer1 = () => handleClickPlayer('1', startTime1, decrementPlayer1, incrementMove1);
     const handleClickPlayer2 = () => handleClickPlayer('2', startTime2, decrementPlayer2, incrementMove2);
