@@ -1,5 +1,15 @@
 ## Chess Clock
 
+<div align="center">
+  <img width="60px" hight="60px" src="https://github.com/devicons/devicon/blob/master/icons/typescript/typescript-original.svg" alt="icon" />
+  <img width="60px" hight="60px" src="https://github.com/devicons/devicon/blob/master/icons/nextjs/nextjs-original.svg"           alt="icon" />
+  <img width="60px" hight="60px" src="https://github.com/devicons/devicon/blob/master/icons/react/react-original.svg" alt="icon" />
+    <img width="60px" hight="60px" src="https://github.com/devicons/devicon/blob/master/icons/tailwindcss/tailwindcss-plain.svg" alt="icon" />
+  <img width="60px" hight="60px" src="https://github.com/devicons/devicon/blob/master/icons/redux/redux-original.svg" alt="icon" />
+</div>
+
+----
+
 ChessClock is a simple application that allows two players to play a game of chess with a timer. It keeps track of the time each player has left and will alert the players when time is running out. This application is perfect for competitive chess players who want to practice their skills and stay sharp.
 
 <p align="center">
